@@ -1,0 +1,70 @@
+{% extends 'menu_base.html' %}
+
+{% block title %}
+<title>Issue Medicines</title>
+{% endblock %}
+
+{% block form %}
+
+{% for message in get_flashed_messages() %}
+<p class='negative'>{{message}}</p>
+{% endfor %}
+<p style="text-align: center;">How many medicines do you want to add?</p><input type="number" name="nos" id="nos" placeholder="Enter Number"><br>
+<button class="btn" id="addbtn">Add</button><br>
+
+<form id="form1" name="form1" method="POST" action="/pharmacy/issue_meds/{{pid}}">
+
+</form>
+
+<input type="submit" class="btn" form="form1" value="Update"><br>
+<input type="reset" class="btn" form="form1"><br>
+<br>
+{% if fail %}
+<p class="negative">The following could not be added:</p>
+{% for med in fail %}
+<p style="text-align: center;" class="danger">{{med[0]}}: Required: {{med[1]}} Available:{{med[2]}}</p>
+{% endfor %}
+{% endif %}
+
+{% if success %}
+<p class="positive">Medicines issued successfully</p>
+<br>
+<table>
+        <tr>
+            <th>Medicine</th>
+            <th>Quantity</th>
+            <th>Rate</th>
+            <th>Amount</th>
+        </tr>
+   
+        {% for med in success %}
+        <tr>
+            <td>{{med[0]}}</td>
+            <td>{{med[1]}}</td>
+            <td>{{med[2]}}</td>
+            <td>{{med[3]}}</td>
+        </tr>
+        {% endfor %}
+
+</table><br>
+{% endif %}
+
+
+{% endblock %}
+{% block js%}
+<script>
+    btn = document.getElementById('addbtn');
+    form = document.forms['form1'];
+    input = document.getElementById('nos');
+    count = 0;
+    btn.addEventListener('click', function () {
+        value = input.value;
+        for (i = 1; i <= value; i++) {
+            m = 'med' + i.toString();
+            q = 'q' + i.toString();
+            form.innerHTML += `<input type='text' name=${m} id=${m} placeholder='Med Name'> <br>
+                          <input type="number" name=${q} id=${q} placeholder='Quantity' min='1'><br>`
+        }
+    });
+</script>
+{% endblock %}

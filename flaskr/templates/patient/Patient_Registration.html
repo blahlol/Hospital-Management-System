@@ -1,0 +1,274 @@
+<html>
+
+<head>
+    <title>Patient Registration</title>
+    <link rel="stylesheet" href="/static/css/all.css">
+    <style>
+        body {
+            font-family: cursive;
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        header {
+            color: rgb(44, 63, 233);
+            margin: 0;
+        }
+
+        nav ul {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+            overflow: hidden;
+            background-color: rgb(44, 63, 233);
+
+        }
+
+        nav li {
+            float: left;
+        }
+
+        nav li a {
+            display: block;
+            text-decoration: none;
+            padding: 10px;
+            width: 100px;
+            color: white;
+            border-right: 1px solid black;
+            border-left: 1px solid black;
+            border-bottom: 1px solid black;
+            text-align: center;
+        }
+
+        .content {
+            display: none;
+            position: absolute;
+            border: 1px solid black;
+
+        }
+
+        .content a {
+            display: block;
+            text-decoration: none;
+            padding: 10px;
+            width: 100px;
+            color: white;
+            text-align: center;
+            border: none;
+            background-color: rgb(44, 63, 233);
+        }
+
+        .dropdown:hover .content {
+            display: block;
+        }
+
+        i {
+            float: right;
+            font-size: 10px;
+        }
+
+        .btn {
+            border: none;
+            padding: 10px;
+            color: white;
+            background-color: rgb(44, 63, 233);
+            border: 1px solid black;
+            border-radius: 5px;
+            text-align: center;
+            display: block;
+            width: 100px;
+            margin: auto;
+            cursor: pointer;
+        }
+
+        a:hover,
+        .btn:hover,
+        a:hover,
+        button:hover {
+            opacity: 0.8;
+            cursor: pointer;
+        }
+
+        div select,
+        input[type=number],
+        div input[type=text],
+        div input[type=date] {
+            padding: 10px;
+            width: 50%;
+            outline: none;
+            border-radius: 3px;
+            border: none;
+            display: block;
+            margin: auto;
+            border: 1px solid black;
+        }
+
+        input:focus {
+            border: 2px solid lightblue;
+        }
+
+        #form1 input {
+            width: 100px;
+        }
+
+        #form1 input[type=text],
+        #form1 input[type=number] {
+            width: 100px;
+            display: block;
+            margin: auto;
+        }
+
+        #form1 input:focus {
+            border: 2px solid lightblue;
+        }
+
+        select:focus {
+            border: 2px solid lightblue;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4{
+            text-align: center;
+            color: rgb(44, 63, 233);
+        }
+
+        .danger {
+            color: red;
+        }
+
+        div.maincontent {
+            width: 40%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 5%;
+        }
+
+        .negative {
+            color: white;
+            width: 70%;
+            margin: auto;
+            background-color: rgba(255, 0, 0, 0.5);
+            border: 2px solid red;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .positive {
+            color: green;
+            width: 70%;
+            margin: auto;
+            background-color: rgb(160, 247, 196);
+            border: 2px solid green;
+            text-align: center;
+            padding: 10px 0;
+        }
+        td{
+            vertical-align: top;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div>
+            <img style="float: left;width: 50px;height: 50px;" src="/static/images/symbol.jpg">
+            <h2 style="margin-left: 65px;text-align: initial;padding-top:5px ;">ABC HOSPITAL</h2>
+        </div>
+
+        <nav>
+            <ul>
+                <li class="dropdown" id="one">
+                    <a class="hov">Patient<i class="fas fa-chevron-down"></i></a>
+                    <div class="content">
+                        <a href="{{url_for('patient.pat_reg')}}">Create</a>
+                        <a href="{{url_for('patient.pat_up')}}">Update</a>
+                        <a href="{{url_for('patient.delete')}}">Delete</a>
+                        <a href="{{url_for('patient.viewall')}}">View all</a>
+                        <a href="{{url_for('patient.search')}}">Search</a>
+                        <a href="{{url_for('patient.billing')}}">Billing Screen</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a class="hov">Pharmacy<i class="fas fa-chevron-down"></i></a>
+                    <div class="content">
+                        <a href="{{url_for('pharmacy.get_patient')}}">Issue Meds</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a class="hov">Diagnostics<i class="fas fa-chevron-down"></i></a>
+                    <div class="content">
+                        <a href="{{url_for('diagnostics.get_diagnosis')}}">Add Diagnostics</a>
+                    </div>
+                </li>
+                <li style="float: right;"><a href="{{url_for('logout')}}">Logout<i class="fas fa-sign-out-alt" style="font-size: 14px;padding:5px 0;"></i></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="maincontent">
+        {% for message in get_flashed_messages() %}
+        <p class="positive">Patient Discharged</p><br>
+        {% endfor %}
+
+        <h3>Patient Registration</h3>
+        {% if s %}
+        <p class="positive">{{s}}</p>
+        <h4>{{string}}{{pid}}</h4><br>
+        {% endif %}
+
+        <form action="/patient/PatientRegistration" method="post">
+            <table id="div2">
+                <tr>
+                    <td>Patient Name *<br></td>
+                    <td><input type="text" name="pname" size="50" required><br></td>
+                </tr>
+                <tr>
+                    <td>Patient age *<br></td>
+                    <td><input type="text" name="p_age" size="50" required><br></td>
+                </tr>
+                <tr>
+                    <td>Date of Admission *<br></td>
+                    <td><input type="date" name="doa" size="50" required><br></td>
+                </tr>
+                <tr>
+                    <td>Type of Bed<br></td>
+                    <td><select name=btype>
+                            <option>General ward</option>
+                            <option>Semi sharing</option>
+                            <option>Single room</option>
+                        </select><br></td>
+                </tr>
+                <tr>
+                    <td>Address *<br></td>
+                    <td><input type="text" name="addr" size="50" required><br></td>
+                </tr>
+                <tr>
+                    <td>City *<br></td>
+                    <td><input type="text" name="city" size="50" required><br></td>
+                </tr>
+                <tr>
+                    <td>State *<br></td>
+                    <td><input type="text" name="state" size="50" required><br></td>
+                </tr>
+
+            </table>
+            <br>
+            <div style="margin-left:10%">
+                <table>
+                    <tr>
+                        <td style="padding:30px"><input type="submit" value="Submit" class="btn"></td>
+                        <td style="padding:30px"><input type="reset" value="Reset" class="btn"></td>
+                    </tr>
+                </table>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

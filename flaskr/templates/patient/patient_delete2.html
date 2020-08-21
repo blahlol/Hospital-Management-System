@@ -1,0 +1,230 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Patient</title>
+</head>
+<link rel="stylesheet" href="/static/css/all.css">
+<link rel="stylesheet" href="/static/css/mystyle.css">
+<style>
+    body{
+        font-family: cursive;
+        margin:0;
+        padding:0;
+    }
+    a{
+        text-decoration: none;
+    }
+
+    header{
+        color:rgb(44, 63, 233);
+        margin: 0;
+    }
+    nav ul{
+        margin: 0;
+        padding:0;
+        list-style-type: none;
+        overflow: hidden;
+        background-color: rgb(44,63,233);
+        
+    }
+    nav li{
+        float:left;
+    }
+    nav li a{
+        display: block;
+        text-decoration: none; 
+        padding:10px; 
+        width: 100px;
+        color:white;
+        border-right:1px solid black;
+        border-left:1px solid black;
+        border-bottom: 1px solid black;
+        text-align: center;
+    }
+    .content{
+        display: none;
+        position: absolute;
+        border: 1px solid black;
+        
+    }
+    .content a{
+        display: block;
+        text-decoration: none;
+        padding:10px;
+        width:100px;
+        color:white;
+        text-align: center;
+        border:none;
+        background-color: rgb(44, 63, 233);
+    }
+
+    .dropdown:hover .content{
+        display: block;
+    }
+    i{
+        float: right;
+        font-size: 10px;
+    }
+    table{
+        margin:auto;
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th{
+        text-align: left;
+    }
+    th,td{
+        padding:10px;
+    }
+    th{
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+        background-color: rgb(44,63,233);
+        color:white;
+    }
+
+    tr:nth-child(even){
+        background-color:rgb(243, 242, 242);
+    }
+
+    .btn{
+        border:none;
+        padding: 10px;
+        color: white;
+        background-color: rgb(44, 63, 233);
+        border: 1px solid black;
+        border-radius: 5px;
+        text-align: center;
+        display: block;
+        width: 100px;
+        margin: auto;
+        cursor: pointer;
+    }
+    a:hover,.btn:hover,a:hover,button:hover{
+        opacity:0.8;
+        cursor: pointer;
+    }
+
+    div select,input[type=number],div input[type=text],div input[type=date]{
+        padding:10px;
+        width: 30%;
+        outline: none;
+        border-radius: 3px;
+        border:none;
+        display: block;
+        margin: auto;
+        border:1px solid black;
+    }
+    input:focus{
+        border:2px solid lightblue;
+    }
+    #form1 input{
+    width: 100px;
+    }
+    #form1 input[type=text],#form1 input[type=number]{
+        width: 100px;
+        display: block;
+        margin: auto;
+    }
+    #form1 input:focus{
+        border:2px solid lightblue;
+    }
+    select:focus{
+        border: 2px solid lightblue;
+    }
+    h1,h2,h3,h4{
+        text-align: center;
+        color:rgb(44,63,233);
+    }
+    .danger{
+        color:red;
+    }
+    div.maincontent {
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 5%;
+    }
+    .negative{
+        color:white;
+        width: 70%;
+        margin: auto;
+        background-color: rgba(255,0,0,0.5);
+        border: 2px solid red;
+        text-align: center;
+        padding:10px 0;
+    }
+    .positive{
+        color:green;
+        width:70%;
+        margin: auto;
+        background-color: rgb(160, 247, 196);
+        border: 2px solid green;
+        text-align: center;
+        padding:10px 0;
+    }
+</style>
+<body>
+    <header>
+        <div>
+            <img style="float: left;width: 50px;height: 50px;" src="/static/images/symbol.jpg">
+            <h2 style="margin-left: 65px;text-align: initial;padding-top:5px ;">ABC HOSPITAL</h2>
+        </div>
+    
+        <nav>
+            <ul>
+                <li class="dropdown" id="one">
+                    <a class="hov">Patient<i class="fas fa-chevron-down"></i></a>
+                    <div class="content">
+                        <a href="{{url_for('patient.pat_reg')}}">Create</a>
+                        <a href="{{url_for('patient.pat_up')}}">Update</a>
+                        <a href="{{url_for('patient.delete')}}">Delete</a>
+                        <a href="{{url_for('patient.viewall')}}">View all</a>
+                        <a href="{{url_for('patient.search')}}">Search</a>
+                        <a href="{{url_for('patient.billing')}}">Billing Screen</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a class="hov">Pharmacy<i class="fas fa-chevron-down"></i></a>
+                    <div class="content">
+                        <a href="{{url_for('pharmacy.get_patient')}}">Issue Meds</a>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a class="hov">Diagnostics<i class="fas fa-chevron-down"></i></a>
+                    <div class="content">
+                        <a href="{{url_for('diagnostics.get_diagnosis')}}">Add Diagnostics</a>
+                    </div>
+                </li>
+                <li style="float: right;"><a href="{{url_for('logout')}}">Logout<i class="fas fa-sign-out-alt" style="font-size: 14px;padding:5px 0;"></i></a></li>
+            </ul>
+        </nav>
+    </header>
+<br><br>
+<div class="maincontent">
+<form action="/patient/patient_delete2" method="post">
+
+<table>
+{% for i in info %}
+	{% for j in i %}
+		<tr>
+		<td>{{msg[i.index(j)]}}</td>
+		<td>{{j}}</td>
+	{% endfor %}
+{% endfor %}
+
+</table>
+<br>
+
+<button onclick="myFunction()" class="btn">Delete</button>
+</div>
+<script>
+function myFunction() {
+  alert("Sucessfully Deleted");
+}
+</script>
+</form>
+
+</body>
+</html>

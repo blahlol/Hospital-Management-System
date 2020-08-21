@@ -1,0 +1,65 @@
+{% extends 'menu_base.html' %}
+
+{% block title %}
+<title>Add Diagnosis</title>
+{% endblock %}
+
+{% block form %}
+
+<h3>Choose Tests</h3>
+<form method="POST" name="diagnosis" id="diagnosis" action="/diagnostics/add_diagnosis/{{pid}}">
+<select name="test1" id="test1" >
+<option value="" hidden></option>
+{% if test_names %}
+{% for test_name in test_names %}
+<option value="{{test_name}}">{{test_name}}</option>
+{% endfor %}
+
+{% endif %}
+</select><br>
+</form>
+<p style="text-align: center;">How many more tests do you want to add?</p> <input type="number" name="nos" id="nos"><br>
+<button class="btn" id="addtest">Add</button><br>
+<input type="submit" class="btn" form="diagnosis" value="Update"><br>
+<input type="reset" class="btn" form="diagnosis"><br>
+<br>
+{% if tests %}
+<p class="positive">Diagnostics added successfully</p><br>
+<table>
+    <tr>
+        <th>Test Name</th>
+        <th>Amount</th>
+    </tr>
+
+    {% for test in tests %}
+    <tr>
+        <td>{{test[0]}}</td>
+        <td>{{test[1]}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+
+{% endblock %}
+
+{% block js %}
+<script>
+    form = document.forms['diagnosis'];
+    btn = document.getElementById('addtest');
+    input = document.getElementById('nos');
+    content=document.getElementsByTagName('select')[0].innerHTML;
+    num=2;
+    btn.addEventListener('click', function () {
+        s=document.getElementsByTagName('select');
+        value = input.value;
+        if (value) {
+            for (i = 1; i <=value; i++) {
+                num1 = 'test' + num.toString();
+                form.innerHTML +=`<select name=${num1} id=${num1}>${content}</select><br>`;
+                num++;
+            }
+        }
+    });
+</script>
+{% endblock %}

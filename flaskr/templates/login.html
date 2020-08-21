@@ -1,0 +1,112 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}
+    {% endblock %}
+<!-- <link rel="stylesheet" href="/static/css/all.css"> -->
+<style>
+    body{
+        font-family: cursive;
+        margin:0;
+        padding:0;
+    }
+    a{
+        text-decoration: none;
+    }
+
+    header{
+        color:rgb(44, 63, 233);
+        margin: 0;
+    }
+    .btn{
+        border:none;
+        padding: 10px;
+        color: white;
+        background-color: rgb(44, 63, 233);
+        border: 1px solid black;
+        border-radius: 5px;
+        text-align: center;
+        display: block;
+        width: 100px;
+        margin: auto;
+        cursor: pointer;
+    }
+    a:hover,.btn:hover,a:hover,button:hover{
+        opacity:0.8;
+        cursor: pointer;
+    }
+
+    div select,div input[type=number],div input[type=text],div input[type=password]{
+        padding:10px;
+        width: 50%;
+        outline: none;
+        border-radius: 3px;
+        border:none;
+        display: block;
+        margin: auto;
+        border:1px solid black;
+    }
+    div input:focus{
+        border:2px solid lightblue;
+    }
+    
+    h1,h2,h3,h4{
+        text-align: center;
+        color:rgb(44,63,233);
+    }
+    .danger{
+        color:red;
+    }
+    div.maincontent {
+        width: 30%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 5%;
+        border: 2px solid rgb(44, 63, 233);
+        border-radius:10px;
+    }
+    .negative{
+        color:white;
+        width: 70%;
+        margin: auto;
+        background-color: rgba(255,0,0,0.5);
+        border: 2px solid red;
+        text-align: center;
+        padding:10px 0;
+    }
+    .positive{
+        color:green;
+        width:70%;
+        margin: auto;
+        background-color: rgb(160, 247, 196);
+        border: 2px solid green;
+        text-align: center;
+        padding:10px 0;
+    }
+
+</style>
+</head>
+<body>
+    <header>
+        <div>
+            <img style="float: left;width: 50px;height: 50px;" alt="logo" src="/static/images/symbol.jpg">
+            <h2 style="margin-left: 65px;text-align: initial;padding-top:5px ;">ABC HOSPITAL</h2>
+        </div>
+    </header>
+    {% for message in get_flashed_messages() %}
+    <br><p class="negative">{{message}}</p>
+    {% endfor %}
+    <div class="maincontent" style="height: 400px;">
+        
+
+        <br>
+        <h1>Login</h1><br>
+        <form method="POST" name="loginform" id="loginform" action="{{ url_for('login') }}">
+            <input type="text" name="username" placeholder="Username" required><br>
+            <input type="password" name="password" placeholder="Password" required ><br>
+            <input type="submit" name="submit" value="Login" class="btn">
+        </form>
+    </div>
+</body>
+</html>

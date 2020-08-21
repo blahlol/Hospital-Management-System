@@ -1,0 +1,75 @@
+{% extends 'menu_base.html' %}
+
+{% block title %}
+<title>Get Patient Medicines</title>
+{% endblock %}
+
+{% block form %}
+{% for message in get_flashed_messages() %}
+<p class="negative">{{message}}</p>
+{% endfor %}
+
+<h3 style="text-align: center;">Get Patient Details</h3>
+
+<form name="get_patient" action="/pharmacy/get_patient" method="POST">
+    <input type="number" id="pid" name="pid" required placeholder="Patient ID"><br>
+    <input type="submit" value="Submit" class="btn center">
+</form>
+{% if result %}
+<h3 style="text-align: center;">Patient Details</h3>
+<table>
+    <tr>
+        <th>PID</th>
+        <th>Name</th>   
+        <th>Age</th>
+        <th>Date Joined</th>
+        <th>Bed Type</th>
+        <th>Address</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Status</th>
+    </tr>
+
+    <tr>
+        <td>{{result[0]}}</td>
+        <td>{{result[1]}}</td>
+        <td>{{result[2]}}</td>
+        <td>{{result[3]}}</td>
+        <td>{{result[4]}}</td>
+        <td>{{result[5]}}</td>
+        <td>{{result[6]}}</td>
+        <td>{{result[7]}}</td>
+        <td>{{result[8]}}</td>
+    </tr>
+</table>
+{% endif %}
+<br>
+{% if meds %}
+<h3 style="text-align: center;">Medicines Issued</h3>
+<table>
+    <tr>
+        <th>Medicine</th>
+        <th>Quantity</th>
+        <th>Rate</th>
+        <th>Amount</th>
+    </tr>
+{% for med in meds %}
+<tr>
+    <td>{{med[0]}}</td>
+    <td>{{med[1]}}</td>
+    <td>{{med[2]}}</td>
+    <td>{{med[3]}}</td>
+</tr>
+{% endfor %}
+</table>
+{% endif %}
+
+{% if result %}
+<br><br>
+<a href="/pharmacy/issue_meds/{{result[0]}}" class="btn">Issue Meds</a><br>
+<div id="medtable">
+
+</div>
+{% endif %}
+
+{% endblock %}
